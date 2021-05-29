@@ -8,16 +8,18 @@ package entitites;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,56 +28,55 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author caiomartins
  */
 @Entity
-@Table(name = "jobs")
+@Table(name = "products")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Jobs.findAll", query = "SELECT j FROM Jobs j"),
-    @NamedQuery(name = "Jobs.findByJobname", query = "SELECT j FROM Jobs j WHERE j.jobname = :jobname")})
-public class Jobs implements Serializable {
+    @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p"),
+    @NamedQuery(name = "Products.findById", query = "SELECT p FROM Products p WHERE p.id = :id")})
+public class Products implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Lob
     @Column(name = "id")
-    private String id;
-    @Size(max = 2147483647)
-    @Column(name = "jobname")
-    private String jobname;
-    @OneToMany(mappedBy = "job")
-    private Collection<Users> usersCollection;
+    private Integer id;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    private Collection<Transactions> transactionsCollection;
+    @JoinColumn(name = "type_id", referencedColumnName = "id")
+    @ManyToOne
+    private ProductTypes typeId;
 
-    public Jobs() {
+    public Products() {
     }
 
-    public Jobs(String id) {
+    public Products(Integer id) {
         this.id = id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getJobname() {
-        return jobname;
-    }
-
-    public void setJobname(String jobname) {
-        this.jobname = jobname;
-    }
-
     @XmlTransient
-    public Collection<Users> getUsersCollection() {
-        return usersCollection;
+    public Collection<Transactions> getTransactionsCollection() {
+        return transactionsCollection;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection) {
-        this.usersCollection = usersCollection;
+    public void setTransactionsCollection(Collection<Transactions> transactionsCollection) {
+        this.transactionsCollection = transactionsCollection;
+    }
+
+    public ProductTypes getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(ProductTypes typeId) {
+        this.typeId = typeId;
     }
 
     @Override
@@ -88,10 +89,10 @@ public class Jobs implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Jobs)) {
+        if (!(object instanceof Products)) {
             return false;
         }
-        Jobs other = (Jobs) object;
+        Products other = (Products) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,7 +101,7 @@ public class Jobs implements Serializable {
 
     @Override
     public String toString() {
-        return "entitites.Jobs[ id=" + id + " ]";
+        return "entitites.Products[ id=" + id + " ]";
     }
     
 }

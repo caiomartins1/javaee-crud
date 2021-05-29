@@ -6,19 +6,22 @@
 package entitites;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,27 +32,54 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
-    @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")})
+    @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
+    @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username"),
+    @NamedQuery(name = "Users.findByPasswordHash", query = "SELECT u FROM Users u WHERE u.passwordHash = :passwordHash"),
+    @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Size(max = 2147483647)
-    @Column(name = "username")
-    private String username;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Column(name = "id")
-    private String id;
-    @JoinColumn(name = "job", referencedColumnName = "id")
-    @ManyToOne
-    private Jobs job;
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "username")
+    private String username;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "password_hash")
+    private String passwordHash;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<Transactions> transactionsCollection;
 
     public Users() {
     }
 
-    public Users(String id) {
+    public Users(Integer id) {
+        this.id = id;
+    }
+
+    public Users(Integer id, String username, String passwordHash, boolean isAdmin) {
+        this.id = id;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.isAdmin = isAdmin;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,20 +91,29 @@ public class Users implements Serializable {
         this.username = username;
     }
 
-    public String getId() {
-        return id;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-    public Jobs getJob() {
-        return job;
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setJob(Jobs job) {
-        this.job = job;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    @XmlTransient
+    public Collection<Transactions> getTransactionsCollection() {
+        return transactionsCollection;
+    }
+
+    public void setTransactionsCollection(Collection<Transactions> transactionsCollection) {
+        this.transactionsCollection = transactionsCollection;
     }
 
     @Override
