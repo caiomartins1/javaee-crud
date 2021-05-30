@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+>
+  <h:head>
+    <title>Available Products</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+  </h:head>
+
+  <h:body>
+    <!--Nav Bar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">
+        <h3 class="ml-2">XPTO Car Shop</h3>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <h:link class="nav-link">About us</h:link>
+          </li>
+
+          <li class="nav-item">
+            <h:link class="nav-link">Contact</h:link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Table -->
+    <div class="container mt-5">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Items in Stock</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach
+            items="#{ProductTypesController.productTypesList}"
+            var="product"
+            varStatus="metadata"
+          >
+            <tr>
+              <td>#{product.id}</td>
+              <td>#{product.typeName}</td>
+              <td>#{product.price}</td>
+              <td>#{product.stock}</td>
+              <td>
+                <button
+                  id="modalActivate"
+                  type="button"
+                  class="btn btn-success"
+                  data-toggle="modal"
+                  data-target="#editContactModal{{contact.id}}"
+                >
+                  Edit
+                </button>
+                <button
+                  id="modalActivate"
+                  type="button"
+                  class="btn btn-danger"
+                  data-toggle="modal"
+                  data-target="#deleteContactModal{{contact.id}}"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </c:forEach>
+
+          <div
+            class="modal fade right"
+            id="editContactModal{{contact.id}}"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalPreviewLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalPreviewLabel">
+                    Edit Contact
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <!--            <form method="POST" action="{% url 'edit' contact.id %}">
+              
+              <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter first name" value="{{ contact.first_name}}">
+              </div>
+              <div class="form-group">
+                <label for="second_name">Second Name</label>
+                <input type="text" name="second_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter second name" value="{{ contact.second_name}}">
+              </div>
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{ contact.email}}">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                <input type="text" name="phone_number" class="form-control" id="phone_number"  placeholder="Enter phone number" value="{{ contact.phone_number}}">
+              </div>
+              <button type="submit" class="btn btn-primary">Edit Contact</button>
+            </form>-->
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal fade right"
+            id="deleteContactModal{{contact.id}}"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalPreviewLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalPreviewLabel">
+                    Delete Contact
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete
+                  <span class="font-weight-bold"
+                    >{{ contact.first_name }} {{ contact.second_name }}</span
+                  >
+                  from your phonebook?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <!--            <form method="post" id="delete-form" action="{% url 'delete' contact.id %}">
+           
+              <input type="submit" class="btn btn-danger" form="delete-form" value="Delete">
+            </form>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bootstrap JavaScript Files -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+  </h:body>
+</html>
