@@ -31,8 +31,6 @@ public class LoginBean {
         this.username = username;
     }
     
-    
-
     public boolean isIsAdmin() {
         return isAdmin;
     }

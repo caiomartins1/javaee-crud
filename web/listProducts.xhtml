@@ -73,33 +73,77 @@
               <td>#{product.price}</td>
               <td>#{product.stock}</td>
               <c:if test="#{UsersController.loginBean.userID > 0}">
-                <td>
-                  <button
-                    id="modalActivate"
-                    type="button"
-                    class="btn btn-success"
-                    data-toggle="modal"
-                    data-target="#editContactModal{{contact.id}}"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    id="modalActivate"
-                    type="button"
-                    class="btn btn-danger"
-                    data-toggle="modal"
-                    data-target="#deleteContactModal{{contact.id}}"
-                  >
-                    Delete
-                  </button>
-                </td>
+                <c:if test="#{UsersController.loginBean.isAdmin == false}">
+                  <td>
+                    <button
+                      id="modalActivate"
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#editContactModal#{product.id}"
+                    >
+                      Buy
+                    </button>
+                    <div
+                      class="modal fade right"
+                      id="editContactModal#{product.id}"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="exampleModalPreviewLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="exampleModalPreviewLabel"
+                            >
+                              Buy Product
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <h:form>
+                              <div class="form-group">
+                                <label for="type_name">#{product.typeName}</label>
+                              </div>
+                                <h:commandLink
+                                    class="btn btn-success"
+                                    value="Buy Product"
+                                    action=""
+                                />
+
+                            </h:form>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </c:if>
               </c:if>
             </tr>
           </c:forEach>
 
           <div
             class="modal fade right"
-            id="editContactModal{{contact.id}}"
+            id="editContactModal"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalPreviewLabel"
@@ -108,9 +152,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalPreviewLabel">
-                    Edit Contact
-                  </h5>
+                  <h5 class="modal-title" id="exampleModalPreviewLabel">oi</h5>
                   <button
                     type="button"
                     class="close"
@@ -121,27 +163,15 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <!--            <form method="POST" action="{% url 'edit' contact.id %}">
-              
-              <div class="form-group">
-                <label for="first_name">First Name</label>
-                <input type="text" name="first_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter first name" value="{{ contact.first_name}}">
-              </div>
-              <div class="form-group">
-                <label for="second_name">Second Name</label>
-                <input type="text" name="second_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter second name" value="{{ contact.second_name}}">
-              </div>
-              <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{ contact.email}}">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-              </div>
-              <div class="form-group">
-                <label for="phone_number">Phone Number</label>
-                <input type="text" name="phone_number" class="form-control" id="phone_number"  placeholder="Enter phone number" value="{{ contact.phone_number}}">
-              </div>
-              <button type="submit" class="btn btn-primary">Edit Contact</button>
-            </form>-->
+                  <h:form>
+                    <div class="form-group">
+                      <label for="first_name">First Name</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                      Buy Product
+                    </button>
+                  </h:form>
                 </div>
                 <div class="modal-footer">
                   <button

@@ -112,7 +112,7 @@ public class UsersController {
     public String logoutUser() {
         this.loginBean.setIsAdmin(false);
         this.loginBean.setUserID(-1);
-   
+        this.loginBean.setUsername("");
         return "index.xhtml";
     }
 
