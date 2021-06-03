@@ -83,6 +83,20 @@ public class UsersController {
         return "index.xhtml";
     }
     
+    public String registerAdmin() {
+        List<Users> userAlreadyExists = userBean.findUserByUsername(username);
+        
+        if (userAlreadyExists.size() > 0) {
+            return "error.xhtml";
+        }  
+        
+        user.setIsAdmin(true);
+        user.setPasswordHash(passwordHash);
+        user.setUsername(username);
+        userBean.registerUser(user);
+        return "index.xhtml";
+    }
+    
     public String authenticateUser() {
         if (!validCredentials(this.username, this.passwordHash)) {
             return "error.xhtml";
