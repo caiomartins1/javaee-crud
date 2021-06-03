@@ -112,6 +112,11 @@
                   value="Check Balance"
                   action="listProducts"
                 />
+                <h:commandLink
+                  class="btn btn-light hero-btn ml-3 px-4 py-3"
+                  value="List Messages"
+                  action="listMessages"
+                />
               </h:form>
             </c:if>
             <c:if test="#{UsersController.loginBean.isAdmin == false}">
@@ -148,6 +153,51 @@
               />
             </h:form>
           </c:if>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="messagesModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Messages</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Message</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach
+                  var="message"
+                  items="#{MessagesController.messagesList}"
+                >
+                  <tr>
+                    <th scope="row">#{message.id}</th>
+                    <td>#{message.message}</td>
+                    <td>#{message.reveivedAt}</td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
