@@ -6,6 +6,7 @@
 package beans;
 
 import entitites.ProductTypes;
+import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,6 +38,13 @@ public class ProductTypesBean {
         List<ProductTypes> p = getProductTypeById(productTypeID);
         em.createNamedQuery("ProductTypes.sellItem").setParameter("id", 1).setParameter("newstock", p.get(0).getStock() - 1).executeUpdate();
     }
+    
+    public ProductTypes addProcutType(ProductTypes p) {
+        em.persist(p);
+        return p;
+    }
+        
+   
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

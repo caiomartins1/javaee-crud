@@ -97,6 +97,133 @@
               <td>#{product.price}</td>
               <td>#{product.stock}</td>
               <c:if test="#{UsersController.loginBean.userID > 0}">
+                <c:if test="#{UsersController.loginBean.isAdmin}">
+                  <td>
+                    <button
+                      id="modalActivate"
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#editContactModal#{product.id}"
+                    >
+                      Update
+                    </button>
+                    <button
+                      id="modalActivate"
+                      type="button"
+                      class="btn btn-danger"
+                      data-toggle="modal"
+                      data-target="#deleteContactModal#{product.id}"
+                    >
+                      Delete
+                    </button>
+                    <div
+                      class="modal fade right"
+                      id="editContactModal#{product.id}"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="exampleModalPreviewLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="exampleModalPreviewLabel"
+                            >
+                              Buy Product
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <h:form>
+                              <div class="form-group">
+                                <label for="type_name"
+                                  >#{product.typeName}</label
+                                >
+                              </div>
+                              <h:commandLink
+                                class="btn btn-success"
+                                value="Buy Product"
+                                action="#{TransactionsController.buyProduct(product.id, product.price, product.typeName, UsersController.loginBean.userID)}"
+                              />
+                            </h:form>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="modal fade right"
+                      id="deleteContactModal{{contact.id}}"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="exampleModalPreviewLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="exampleModalPreviewLabel"
+                            >
+                              Delete Contact
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete
+                            <span class="font-weight-bold"
+                              >{{ contact.first_name }} {{ contact.second_name
+                              }}</span
+                            >
+                            from your phonebook?
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >
+                              Cancel
+                            </button>
+                            <h:form>
+                              <h:commandLink
+                                class="btn btn-success"
+                                value="Buy Product"
+                                action="#{TransactionsController.buyProduct(product.id, product.price, product.typeName, UsersController.loginBean.userID)}"
+                              />
+                            </h:form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </c:if>
                 <c:if test="#{UsersController.loginBean.isAdmin == false}">
                   <td>
                     <button
@@ -249,16 +376,103 @@
                   >
                     Cancel
                   </button>
-                  <!--            <form method="post" id="delete-form" action="{% url 'delete' contact.id %}">
-           
-              <input type="submit" class="btn btn-danger" form="delete-form" value="Delete">
-            </form>-->
+                  <h:form>
+                    <h:commandLink
+                      class="btn btn-success"
+                      value="Buy Product"
+                      action="#{TransactionsController.buyProduct(product.id, product.price, product.typeName, UsersController.loginBean.userID)}"
+                    />
+                  </h:form>
                 </div>
               </div>
             </div>
           </div>
         </tbody>
       </table>
+      <c:if test="#{UsersController.loginBean.isAdmin}">
+        <button
+          id="modalActivate"
+          type="button"
+          class="btn btn-dark"
+          data-toggle="modal"
+          data-target="#createNewProductModal"
+        >
+          Add a new Product
+        </button>
+      </c:if>
+    </div>
+
+    <div
+      class="modal fade right"
+      id="createNewProductModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalPreviewLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalPreviewLabel">
+              New Product
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h:form>
+              <div class="form-group">
+                <label for="first_name">Type Name</label>
+                <h:inputText
+                  class="form-control"
+                  value="#{TransactionsController.typeName}"
+                />
+              </div>
+              <div class="form-group">
+                <label for="first_name">Price</label>
+                <h:inputText
+                  class="form-control"
+                  value="#{TransactionsController.price}"
+                />
+              </div>
+              <div class="form-group">
+                <label for="first_name">Stock</label>
+                <h:inputText
+                  class="form-control"
+                  value="#{TransactionsController.stock}"
+                />
+              </div>
+              <div class="form-group">
+                <label for="first_name">Minimum Stock</label>
+                <h:inputText
+                  class="form-control"
+                  value="#{TransactionsController.minStock}"
+                />
+              </div>
+              <h:commandButton
+                class="btn btn-primary"
+                value="Create Product"
+                action="#{TransactionsController.addProduct()}"
+              />
+            </h:form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap JavaScript Files -->

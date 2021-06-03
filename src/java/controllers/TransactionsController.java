@@ -35,6 +35,43 @@ public class TransactionsController {
     
     List<TransactionsFinal> userTransactionList = new ArrayList<>();
     
+    String typeName;
+    BigInteger price; 
+    int stock; 
+    int minStock;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public BigInteger getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigInteger price) {
+        this.price = price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getMinStock() {
+        return minStock;
+    }
+
+    public void setMinStock(int minStock) {
+        this.minStock = minStock;
+    }
+    
     
     public List<TransactionsFinal> getUserTransactionList(int userID) {
         userTransactionList = transactionsBean.getUserTransactionList(userID);
@@ -42,7 +79,6 @@ public class TransactionsController {
         return userTransactionList;
     }
 
-    
     public String buyProduct(int soldItemID, BigInteger transactionCost, String productType, int userID) {
              
         List<ProductTypes> p = (List<ProductTypes>) productTypesBean.getProductTypeById(soldItemID);
@@ -65,5 +101,18 @@ public class TransactionsController {
         
     
         return "listProducts.xhtml";
+    }
+    
+    public String addProduct() {
+    
+        ProductTypes p = new ProductTypes();
+        p.setAddedAt(new Date());
+        p.setTypeName(typeName);
+        p.setPrice(price);
+        p.setStock(stock);
+        p.setMinStock(minStock);
+        
+        productTypesBean.addProcutType(p);
+        return "listProducts";
     }
 }
