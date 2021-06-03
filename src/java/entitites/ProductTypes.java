@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "product_types")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "ProductTypes.sellItem", query = "UPDATE ProductTypes p SET p.stock = :newstock WHERE p.id = :id"),
     @NamedQuery(name = "ProductTypes.findAll", query = "SELECT p FROM ProductTypes p"),
     @NamedQuery(name = "ProductTypes.findById", query = "SELECT p FROM ProductTypes p WHERE p.id = :id"),
     @NamedQuery(name = "ProductTypes.findByTypeName", query = "SELECT p FROM ProductTypes p WHERE p.typeName = :typeName"),

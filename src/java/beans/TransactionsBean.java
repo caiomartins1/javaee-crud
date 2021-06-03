@@ -5,7 +5,7 @@
  */
 package beans;
 
-import entitites.ProductTypes;
+import entitites.TransactionsFinal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author caiomartins
  */
 @Stateless
-public class ProductTypesBean {
+public class TransactionsBean {
 
     @PersistenceContext(unitName = "TP2PU")
     private EntityManager em;
@@ -25,19 +25,21 @@ public class ProductTypesBean {
         em.persist(object);
     }
     
-    public List<ProductTypes> getProductTypes() {
-        return (List<ProductTypes>) em.createNamedQuery("ProductTypes.findAll").getResultList();
+    public TransactionsFinal registerTransaction(TransactionsFinal t) {
+        em.persist(t);
+        return t;
     }
     
-    public List<ProductTypes> getProductTypeById(int id) {
-        return (List<ProductTypes>) em.createNamedQuery("ProductTypes.findById").setParameter("id", id).getResultList();
-    }
-    
-    public void updateSoldItem(int productTypeID) {
-        List<ProductTypes> p = getProductTypeById(productTypeID);
-        em.createNamedQuery("ProductTypes.sellItem").setParameter("id", 1).setParameter("newstock", p.get(0).getStock() - 1).executeUpdate();
+    public List<TransactionsFinal> getUserTransactionList(int userID) {
+        List<TransactionsFinal> transactionList = (List<TransactionsFinal>) em.createNamedQuery("TransactionsFinal.findByBuyerId")
+                .setParameter("buyerId", userID).getResultList();
+        
+        return transactionList;
     }
 
+//    public void updateSellStock() {
+//        em.createNamedQuery("")
+//    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

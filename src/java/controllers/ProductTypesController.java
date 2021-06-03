@@ -6,6 +6,7 @@
 package controllers;
 
 import beans.ProductTypesBean;
+import entitites.ProductTypes;
 import entitites.Products;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,12 @@ public class ProductTypesController {
 
     @EJB
     private ProductTypesBean productTypesBean;
-    private List<Products> productTypesList = new ArrayList();
+    private List<ProductTypes> productTypesList = new ArrayList();
     
-    public List<Products> getProductTypesList() {
+    public List<ProductTypes> getProductTypesList() {
         productTypesList = productTypesBean.getProductTypes();
         
         return productTypesList;
-    }
+    } 
     
 }
