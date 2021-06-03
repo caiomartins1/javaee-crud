@@ -55,7 +55,10 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Items in Stock</th>
-            <th scope="col">Options</th>
+
+            <c:if test="#{UsersController.loginBean.userID.length() > 0}">
+              <th scope="col">Options</th>
+            </c:if>
           </tr>
         </thead>
         <tbody>
@@ -69,26 +72,28 @@
               <td>#{product.typeName}</td>
               <td>#{product.price}</td>
               <td>#{product.stock}</td>
-              <td>
-                <button
-                  id="modalActivate"
-                  type="button"
-                  class="btn btn-success"
-                  data-toggle="modal"
-                  data-target="#editContactModal{{contact.id}}"
-                >
-                  Edit
-                </button>
-                <button
-                  id="modalActivate"
-                  type="button"
-                  class="btn btn-danger"
-                  data-toggle="modal"
-                  data-target="#deleteContactModal{{contact.id}}"
-                >
-                  Delete
-                </button>
-              </td>
+              <c:if test="#{UsersController.loginBean.userID.length() > 0}">
+                <td>
+                  <button
+                    id="modalActivate"
+                    type="button"
+                    class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#editContactModal{{contact.id}}"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    id="modalActivate"
+                    type="button"
+                    class="btn btn-danger"
+                    data-toggle="modal"
+                    data-target="#deleteContactModal{{contact.id}}"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </c:if>
             </tr>
           </c:forEach>
 

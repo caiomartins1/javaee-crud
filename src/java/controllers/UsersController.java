@@ -1,6 +1,7 @@
 package controllers;
 
 
+import beans.LoginBean;
 import beans.UsersBean;
 import entitites.Users;
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ import pt.ubi.di.security.model.PBKDF2;
 @Named (value = "UsersController")
 @RequestScoped
 public class UsersController {
+
+    @EJB
+    private LoginBean loginBean;
     
     @EJB
     private UsersBean userBean;
@@ -78,5 +82,41 @@ public class UsersController {
         userBean.registerUser(user);
         return "index.xhtml";
     }
+    
+    public String authenticateUser() {
+        if (!validCredentials(this.username, this.passwordHash)) {
+            return "error.xhtml";
+        }
+        
+        List<Users> userList = userBean.findUserByUsername(username);
+        Users user = userList.get(0);
+        
+        this.loginBean.setIsAdmin(user.getIsAdmin());
+        this.loginBean.setUserID(user.getUsername());
+        
+        return "listProducts.xhtml";
+    }
+    
+    private boolean validCredentials(String username, String passwordHash) {
+        List<Users> userList = userBean.findUserByUsername(username);
+        
+        if (userList.size() < 1) {
+            return false;
+        }
+        
+        return userList.get(0).getUsername().equals(username) &&  userList.get(0).getPasswordHash().equals(passwordHash);
  
+    }
+    
+    public String logoutUser() {
+        this.loginBean.setIsAdmin(false);
+        this.loginBean.setUserID("");
+   
+        return "index.xhtml";
+    }
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
 }
