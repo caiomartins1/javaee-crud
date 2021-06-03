@@ -28,6 +28,16 @@ public class UsersBean {
     public List<Users> getUsers () {
         return (List<Users>) em.createNamedQuery("Users.findAll").getResultList();
     }
+    
+    public Users registerUser(Users user) {
+        em.persist(user);
+        return user;
+    }
+    
+    public List<Users> findUserByUsername(String username) {
+        List<Users> u = (List<Users>) em.createNamedQuery("Users.findByUsername").setParameter("username", username).getResultList();
+        return u;
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
