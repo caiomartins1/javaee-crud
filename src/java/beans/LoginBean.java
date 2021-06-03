@@ -20,7 +20,18 @@ public class LoginBean {
     private EntityManager em;
     
     private boolean isAdmin;
-    private String userID;
+    private int userID = -1;
+    private String username = "";
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    
 
     public boolean isIsAdmin() {
         return isAdmin;
@@ -30,11 +41,11 @@ public class LoginBean {
         this.isAdmin = isAdmin;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 

@@ -92,9 +92,10 @@ public class UsersController {
         Users user = userList.get(0);
         
         this.loginBean.setIsAdmin(user.getIsAdmin());
-        this.loginBean.setUserID(user.getUsername());
+        this.loginBean.setUserID(user.getId());
+        this.loginBean.setUsername(username);
         
-        return "listProducts.xhtml";
+        return "index.xhtml";
     }
     
     private boolean validCredentials(String username, String passwordHash) {
@@ -110,7 +111,7 @@ public class UsersController {
     
     public String logoutUser() {
         this.loginBean.setIsAdmin(false);
-        this.loginBean.setUserID("");
+        this.loginBean.setUserID(-1);
    
         return "index.xhtml";
     }
