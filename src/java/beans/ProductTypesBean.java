@@ -6,7 +6,6 @@
 package beans;
 
 import entitites.ProductTypes;
-import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,11 +38,24 @@ public class ProductTypesBean {
         em.createNamedQuery("ProductTypes.sellItem").setParameter("id", 1).setParameter("newstock", p.get(0).getStock() - 1).executeUpdate();
     }
     
-    public ProductTypes addProcutType(ProductTypes p) {
+    public ProductTypes addProductType(ProductTypes p) {
         em.persist(p);
         return p;
     }
+    
+    public void deleteProduct(int productID) {
+        ProductTypes p = em.find(ProductTypes.class, productID);
         
+        if (p != null) em.remove(p);
+    }
+    
+    public ProductTypes updateProduct(ProductTypes p) {
+        ProductTypes prod = em.find(ProductTypes.class, p.getId());
+        
+        if (prod != null) p = em.merge(p);
+        
+        return p;
+    }  
    
 
     // Add business logic below. (Right-click in editor and choose

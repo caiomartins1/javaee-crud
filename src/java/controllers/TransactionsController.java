@@ -112,7 +112,8 @@ public class TransactionsController {
         p.setStock(stock);
         p.setMinStock(minStock);
         
-        productTypesBean.addProcutType(p);
-        return "listProducts";
+        productTypesBean.addProductType(p);
+        return "listProducts.xhtml";
     }
+    
 }
