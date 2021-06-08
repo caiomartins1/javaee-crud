@@ -79,6 +79,10 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Items in Stock</th>
+            <c:if test="#{UsersController.loginBean.isAdmin}">
+                <th scope="col">Minimum Stock</th>
+                <th scope="col">Added At</th>
+            </c:if>
 
             <c:if test="#{UsersController.loginBean.userID > 0}">
               <th scope="col">Options</th>
@@ -94,8 +98,12 @@
             <tr>
               <td>#{product.id}</td>
               <td>#{product.typeName}</td>
-              <td>#{product.price}</td>
+              <td>#{product.price}$</td>
               <td>#{product.stock}</td>
+              <c:if test="#{UsersController.loginBean.isAdmin}">
+                  <td scope="col">#{product.minStock}</td>
+                  <td scope="col">#{product.addedAt.day}/#{product.addedAt.month}/#{product.addedAt.year + 1900}</td>
+              </c:if>
               <c:if test="#{UsersController.loginBean.userID > 0}">
                 <c:if test="#{UsersController.loginBean.isAdmin}">
                   <td>
@@ -117,6 +125,16 @@
                     >
                       Delete
                     </button>
+                      <c:if test="#{product.minStock > product.stock}">
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      data-toggle="modal"
+                      data-target="#deleteContactModal#{product.id}"
+                    >
+                      Out of Stock
+                    </button>
+                      </c:if>
                     <div
                       class="modal fade right"
                       id="editContactModal#{product.id}"

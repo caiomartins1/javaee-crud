@@ -36,6 +36,10 @@ public class TransactionsBean {
         
         return transactionList;
     }
+    
+    public List<TransactionsFinal> getTransactions() {
+        return (List<TransactionsFinal>) em.createNamedQuery("TransactionsFinal.findAll").getResultList();
+    }
 
 //    public void updateSellStock() {
 //        em.createNamedQuery("")

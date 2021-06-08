@@ -33,7 +33,7 @@ public class MessagesController {
     
     
     
-    public List<Messages> getMessagesList() {
+    public List<Messages> getMessagesList() throws InterruptedException {
         messagesList = messagesBean.getMessagesList();
         return messagesList;
     }
@@ -44,13 +44,14 @@ public class MessagesController {
         
         for (ProductTypes p: productTypesList) {
             if (p.getStock() < p.getMinStock()) {
+                System.out.println("EBTRUEWIORUWOUWEOIRWUE");
                 m.setMessage("Product: " + p.getTypeName() + " is below minimum stock!" );
                 m.setReveivedAt(new Date());
                 messagesBean.createMessage(m);     
             }
         }
         
-        return "listMessages";
+        return "listMessages.xhtml";
     }
   
 }

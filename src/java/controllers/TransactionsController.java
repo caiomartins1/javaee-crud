@@ -40,6 +40,16 @@ public class TransactionsController {
     int stock; 
     int minStock;
 
+    public BigInteger storeBalance() {
+        List<TransactionsFinal> allTransactionsList = transactionsBean.getTransactions();
+        
+        BigInteger counter = BigInteger.valueOf(1);
+        for (TransactionsFinal f: allTransactionsList) {
+            counter = counter.add(f.getCost());
+        }
+        return counter;
+    }
+
     public String getTypeName() {
         return typeName;
     }
